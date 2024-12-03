@@ -6,7 +6,7 @@
 /*   By: mluis <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/02 20:37:00 by mluis             #+#    #+#             */
-/*   Updated: 2024/12/02 20:40:29 by mluis            ###   ########.fr       */
+/*   Updated: 2024/12/03 10:52:09 by mluis            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,22 +15,23 @@
 
 int	*ft_range(int min, int max)
 {
-	int		difer;
-	int		i;
-	int		*range;
+	int		range;
+	int		index;
+	int		*buffer;
 	int		*d;
 
 	if (min >= max)
 		return (0);
-	difer = max - min;
-	range = malloc(difer * sizeof(int));
-	if (!range)
+	range = max - min;
+	buffer = malloc(range * sizeof(int));
+	d = buffer;
+	if (!d)
 		return (0);
-	i = 0;
-	while (i < difer)
+	index = 0;
+	while (index < range)
 	{
-		range[i] = min + i;
-		i++;
+		buffer[index] = min + index;
+		index++;
 	}
-	return (range);
+	return (buffer);
 }
