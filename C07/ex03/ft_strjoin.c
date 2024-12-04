@@ -5,12 +5,13 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: mluis <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/12/03 06:15:01 by mluis             #+#    #+#             */
-/*   Updated: 2024/12/03 06:18:39 by mluis            ###   ########.fr       */
+/*   Created: 2024/12/04 12:47:43 by mluis             #+#    #+#             */
+/*   Updated: 2024/12/04 12:48:24 by mluis            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdlib.h>
+
 int	ft_str_length(char *str)
 {
 	int	index;
@@ -54,44 +55,15 @@ int	ft_compute_final_length(char **strings, int size, int sep_length)
 
 char	*ft_strjoin(int size, char **strs, char *sep)
 {
-	int		full_length;
 	int		index;
 	char	*string;
 	char	*d;
 
 	if (size == 0)
 		return ((char *)malloc(sizeof(char)));
-	full_length = ft_compute_final_length(strs, size, ft_str_length(sep));
-	d = (string = (char *)malloc((full_length + 1) * sizeof(char)));
-	if (!d)
-		return (0);
-	index = 0;
-	while (index < size)
-	{
-		ft_strcpy(d, strs[index]);
-		d += ft_str_length(strs[index]);
-		if (index < size - 1)
-		{
-			ft_strcpy(d, sep);
-			d += ft_str_length(sep);
-		}
-		index++;
-	}
-	*d = '\0';
-	return (string);
-}
-
-char	*ft_strjoin(int size, char **strs, char *sep)
-{
-	int		full_length;
-	int		index;
-	char	*string;
-	char	*d;
-
-	if (size == 0)
-		return ((char *)malloc(sizeof(char)));
-	full_length = ft_compute_final_length(strs, size, ft_str_length(sep));
-	string = (char *)malloc((full_length + 1) * sizeof(char));
+	index = ft_compute_final_length(strs, size, ft_str_length(sep));
+	string = (char *)malloc((index + 1) * sizeof(char));
+	d = string;
 	if (!d)
 		return (0);
 	index = 0;
