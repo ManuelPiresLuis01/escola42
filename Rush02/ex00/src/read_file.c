@@ -3,24 +3,22 @@
 /*                                                        :::      ::::::::   */
 /*   read_file.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dcristov <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: mluis <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/11/03 08:16:44 by dcristov          #+#    #+#             */
-/*   Updated: 2024/11/03 08:16:55 by dcristov         ###   ########.fr       */
+/*   Created: 2024/12/07 14:40:53 by mluis             #+#    #+#             */
+/*   Updated: 2024/12/07 14:42:23 by mluis            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_header.h"
 
-// Função para ler o conteúdo do arquivo especificado
-// e retornar as linhas divididas em um array.
 char	**ft_read_file(char *dictpath)
 {
 	char	*buffer;
 	char	**split;
-	int	file;
-	int	size;
-	int	bytes_read;
+	int		file;
+	int		size;
+	int		bytes_read;
 
 	bytes_read = 0;
 	size = ft_get_file_size(dictpath);
@@ -49,7 +47,6 @@ char	**ft_read_file(char *dictpath)
 	return (split);
 }
 
-// Inicializa um valor zero para ser usado em casos específicos.
 char	*ft_init_zerovalue(void)
 {
 	int		i;
@@ -69,7 +66,6 @@ char	*ft_init_zerovalue(void)
 	return (zerovalue);
 }
 
-// Verifica se há um próximo valor no array que é maior que o zerovalue.
 int	ft_check_next_value(char **tab_nbr, char *zerovalue, int index)
 {
 	int		i;
@@ -84,7 +80,6 @@ int	ft_check_next_value(char **tab_nbr, char *zerovalue, int index)
 	return (0);
 }
 
-// Função principal que inicia a impressão do número por partes.
 int	ft_start(char **dict, char **tab_nbr, int tab_nbr_size, char *zerovalue)
 {
 	int	i;
