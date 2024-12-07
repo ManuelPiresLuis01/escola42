@@ -12,72 +12,78 @@
 
 #include <stdlib.h>
 
-int	ft_str_length(char *str)
+int	ft_strlen(char *str)
 {
-	int	index;
+	int	i;
 
-	index = 0;
-	while (str[index])
-		index++;
-	return (index);
+	i = 0;
+	while (str[i])
+	{
+		i++;
+	}
+	return (i);
 }
 
-char	*ft_strcpy(char *dest, char *src)
+int	ft_lngh(char **strs, int size, char *sep)
 {
-	int	index;
+	int	i;
+	int	lng;
 
-	index = 0;
-	while (src[index] != '\0')
+	i = 0;
+	lng = 0;
+	while (i < size)
 	{
-		dest[index] = src[index];
-		index++;
+		lng = lng + ft_strlen(strs[i]);
+		i++;
 	}
-	dest[index] = '\0';
+	lng += (size - 1) * ft_strlen(sep);
+	return (lng + 1);
+}
+
+char	*ft_stract(char *dest, char *src)
+{
+	int	i;
+	int	j;
+
+	i = 0;
+	j = 0;
+	while (dest[i])
+	{
+		i++;
+	}
+	while (src[j])
+	{
+		dest[i + j] = src[j];
+		j++;
+	}
+	dest[i + j] = 0;
 	return (dest);
-}
-
-int	ft_compute_final_length(char **strings, int size, int sep_length)
-{
-	int	final_length;
-	int	index;
-
-	final_length = 0;
-	index = 0;
-	while (index < size)
-	{
-		final_length += ft_str_length(strings[index]);
-		final_length += sep_length;
-		index++;
-	}
-	final_length -= sep_length;
-	return (final_length);
 }
 
 char	*ft_strjoin(int size, char **strs, char *sep)
 {
-	int		index;
-	char	*string;
-	char	*d;
+	char	*str;
+	int		i;
 
 	if (size == 0)
-		return ((char *)malloc(sizeof(char)));
-	index = ft_compute_final_length(strs, size, ft_str_length(sep));
-	string = (char *)malloc((index + 1) * sizeof(char));
-	d = string;
-	if (!d)
-		return (0);
-	index = 0;
-	while (index < size)
 	{
-		ft_strcpy(d, strs[index]);
-		d += ft_str_length(strs[index]);
-		if (index < size - 1)
-		{
-			ft_strcpy(d, sep);
-			d += ft_str_length(sep);
-		}
-		index++;
+		str = malloc(1);
+		if (!str)
+			return (NULL);
+		str[0] = '\0';
+		return (str);
 	}
-	*d = '\0';
-	return (string);
+	str = malloc(sizeof(char ) * ft_lngh(strs, size, sep));
+	if (!str)
+		return (NULL);
+	*str = 0;
+	i = 0;
+	while (i < size)
+	{
+		ft_stract(str, strs[i]);
+		if (i < size - 1)
+			ft_stract(str, sep);
+		i++;
+	}
+	return (str);
 }
