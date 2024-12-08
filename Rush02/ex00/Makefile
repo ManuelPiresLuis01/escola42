@@ -1,35 +1,70 @@
-# Nome do programa
-NAME = rush-02
+# **************************************************************************** #
+#                                                                              #
+#                                                         :::      ::::::::    #
+#    Makefile                                           :+:      :+:    :+:    #
+#                                                     +:+ +:+         +:+      #
+#    By: mluis <marvin@42.fr>                       +#+  +:+       +#+         #
+#                                                 +#+#+#+#+#+   +#+            #
+#    Created: 2024/12/07 23:37:25 by mluis             #+#    #+#              #
+#    Updated: 2024/12/07 23:37:26 by mluis            ###   ########.fr        #
+#                                                                              #
+# **************************************************************************** #
 
-# Compilador e flags
-CC = gcc
-CFLAGS = -Wall -Wextra -Werror -Iincludes
+NAME := rush-02
 
-# Ficheiros de fonte e diretórios
-SRCS = src/check_char.c	     src/main.c       src/parse_str.c \
-       src/print_nbr_chunks.c src/read_file.c  src/calc_word_span.c \
-       src/check_file_size.c  src/parse_nbr.c  src/parse_word.c \
-       src/print_word.c	     src/utils.c
+SOURCE_DIR := srcs
+INCLUDE_DIR := include
+OBJECT_DIR := objs
+TEST_DIR := tests
+TEST_OUTPUT_FILE := output.txt
 
-OBJS = $(SRCS:.c=.o)
+CC := cc
+CFLAGS := -Wall -Wextra -Werror -I $(INCLUDE_DIR)
 
-# Regras principais
+NORM := norminette
+NORM_FLAGS := -R CheckForbiddenSourceHeader -R CheckDefine
+
+# Helper function to list all files matching pattern recursively
+# e.g. List all *.c files in srcs/ folder
+rwildcard = $(shell find $(1) -type f -name '$(2)')
+
+# Find all files we work with
+# e.g. srcs/**/*.c, include/**/*.h
+sources := $(call rwildcard,$(SOURCE_DIR),*.c)
+headers := $(call rwildcard,$(INCLUDE_DIR),*.h)
+
+# Convert c files to o files
+# e.g. srcs/main.c srcs/dict/dict.c => objs/main.o objs/dict/dict.o
+objects := $(sources:$(SOURCE_DIR)/%.c=$(OBJECT_DIR)/%.o)
+
+.PHONY: all
 all: $(NAME)
 
-# Regra para compilar o programa
-$(NAME): $(OBJS)
-	$(CC) $(CFLAGS) -o $(NAME) $(OBJS)
+# Compile binary from all o files
+# e.g. objs/main.o objs/dict/dict.o => rush-02
+$(NAME): $(objects)
+	$(CC) $(CFLAGS) $^ -o $@
 
-# Regra para remover os ficheiros de objeto
+# Compile each c file to o file
+# Also, consider h file, though it is not included for compilation
+# e.g. srcs/dict/dict.c (srcs/dict/dict.h) => objs/dict/dict.o
+$(OBJECT_DIR)/%.o: $(SOURCE_DIR)/%.c $(INCLUDE_DIR)/%.h
+	@$(NORM) $(NORM_FLAGS) $^
+	@mkdir -p $(@D)
+	$(CC) $(CFLAGS) -c $< -o $@
+
+.PHONY: clean
 clean:
-	rm -f $(OBJS)
+	$(RM) -r $(OBJECT_DIR)
 
-# Regra para remover os ficheiros de objeto e o executável
+.PHONY: fclean
 fclean: clean
-	rm -f $(NAME)
+	$(RM) $(NAME)
 
-# Regra para recompilar tudo
+.PHONY: re
 re: fclean all
 
-# Indicação para o Makefile não considerar estas regras como ficheiros
-.PHONY: all clean fclean re
+.PHONY: test
+test: all
+	$(RM) ${TEST_DIR}/*/${TEST_OUTPUT_FILE}
+	sh test.sh
