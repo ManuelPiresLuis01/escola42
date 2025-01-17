@@ -29,6 +29,11 @@ Este repositório está organizado da seguinte maneira:
 4. Faça push para o branch (`git push origin minha-alteracao`).
 5. Abra um Pull Request.
 
+## Autor
+
+Este repositório foi criado por **Manuel Pires Luís**, programador.  
+Para entrar em contato, envie uma mensagem para o número: **929004469**.  
+
 ## Contato
 
 Para mais informações sobre a Escola 42, visite o [site oficial](https://www.42.fr/).
